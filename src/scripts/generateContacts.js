@@ -3,11 +3,19 @@ import { writeContacts } from '../utils/writeContacts';
 import { readContacts } from '../utils/readContacts';
 
 const generateContacts = async (number) => {
-  const contacts = await readContacts();
-  for (let i = 0; i < number; i += 1) {
-    contacts.push(createFakeContact());
+  try {
+    const contacts = await readContacts();
+
+    for (let i = 0; i < number; i += 1) {
+      contacts.push(createFakeContact());
+    }
+    await writeContacts(contacts);
+    console.log(
+      `${number} contacts have been successfully generated and added.`,
+    );
+  } catch (error) {
+    console.error('Error generating contacts:', error.message);
   }
-  await writeContacts(contacts);
 };
 
 generateContacts(5);
